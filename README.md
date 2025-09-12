@@ -1,5 +1,5 @@
 # Proyecto-rutas-centro-comercial
-Universidad industrial de santander
+<h2>Universidad industrial de santander</h2>
 Materia: Estructura de datos y analisis de algoritmos
 Docente: Ing. Nury Farelo Velásquez
 Integrantes:
