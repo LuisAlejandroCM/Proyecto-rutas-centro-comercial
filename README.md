@@ -1,5 +1,6 @@
 # Proyecto-rutas-centro-comercial
-<h3>Universidad industrial de santander</h3>
+<h3>Universidad industrial de santander </h3>
+<img src="https://noesis.uis.edu.co/assets/uisdspace/images/uis-logo.svg" width=40>
 Materia: Estructura de datos y analisis de algoritmos<br> 
 Docente: Ing. Nury Farelo Velásquez<br>
 
