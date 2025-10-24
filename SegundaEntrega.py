@@ -80,7 +80,50 @@ class AVL:
     def AgregarElemento(self, nombre, piso, tipo):
         self.raiz = self._insertar(self.raiz, nombre, piso, tipo)
 
+    def _eliminar(self, nodo, nombre):
+        if nodo is None:
+            return None
 
+        if nombre < nodo.data["nombre"]:
+            nodo.izquierda = self._eliminar(nodo.izquierda, nombre)
+        elif nombre > nodo.data["nombre"]:
+            nodo.derecha = self._eliminar(nodo.derecha, nombre)
+        else:
+            # nodo a eliminar encontrado
+            if nodo.izquierda is None:
+                temp = nodo.derecha
+                nodo = None
+                return temp
+            elif nodo.derecha is None:
+                temp = nodo.izquierda
+                nodo = None
+                return temp
+            # dos hijos: tomar sucesor in-order (mínimo del subárbol derecho)
+            sucesor = self.valorMinimoNodo(nodo.derecha)
+            nodo.data = sucesor.data.copy()
+            nodo.derecha = self._eliminar(nodo.derecha, sucesor.data["nombre"])
+
+        if nodo is None:
+            return None
+
+        nodo.altura = 1 + max(self.altura(nodo.izquierda), self.altura(nodo.derecha))
+        balance = self._balance(nodo)
+
+        # Rotaciones para balancear
+        if balance > 1 and self._balance(nodo.izquierda) >= 0:
+            return self._rotacionDerecha(nodo)
+        if balance > 1 and self._balance(nodo.izquierda) < 0:
+            nodo.izquierda = self._rotacionIzquierda(nodo.izquierda)
+            return self._rotacionDerecha(nodo)
+        if balance < -1 and self._balance(nodo.derecha) <= 0:
+            return self._rotacionIzquierda(nodo)
+        if balance < -1 and self._balance(nodo.derecha) > 0:
+            nodo.derecha = self._rotacionDerecha(nodo.derecha)
+            return self._rotacionIzquierda(nodo)
+
+        return nodo
+    def EliminarElemento(self, nombre):
+        self.raiz = self._eliminar(self.raiz, nombre)
 
     def _buscar(self, nodo, nombre):
         if nodo is None:
@@ -121,12 +164,26 @@ class AVL:
         return 1 + self._conteo(nodo.izquierda) + self._conteo(nodo.derecha)
 
     def cantidad_elementos(self):
-        return self._conteo(self.raiz)
-    
+         return self._conteo(self.raiz)
+    def filtrar(self, tipo=None, piso=None):
+       
+        resultados = []
+        def _rec(nodo):
+            if nodo is None:
+                return
+            _rec(nodo.izquierda)
+            d = nodo.data
+            if (tipo is None or d["tipo"] == tipo) and (piso is None or d["piso"] == piso):
+                resultados.append(d)
+            _rec(nodo.derecha)
+        _rec(self.raiz)
+        return resultados
 
+    def filtrar_por_tipo(self, tipo):
+        return self.filtrar(tipo=tipo)
 
-
-
+    def filtrar_por_piso(self, piso):
+        return self.filtrar(piso=piso)
 
 if __name__ == "__main__":
     arbol = AVL()
@@ -135,13 +192,23 @@ if __name__ == "__main__":
     arbol.AgregarElemento("Escalera_Norte", 1, "Escalera")
     arbol.AgregarElemento("Nike", 1, "Tienda")
     arbol.AgregarElemento("Ascensor_Central", 3, "Ascensor")
-
+    print()
     print("Cantidad de lugares en el arbol:", arbol.cantidad_elementos())
     print("\nLugares (ordenados por nombre):")
+    print()
     arbol.imprimir_inorder()
 
     print("\nBusqueda:")
     buscado = "D1"
     res = arbol.buscar(buscado)
     print(res if res else f"No se encontró '{buscado}'")
-    
+
+    # Ejemplos de filtrado
+    print("\nFiltrar por tipo 'Tienda':")
+    print(arbol.filtrar_por_tipo("Tienda"))
+
+    print("\nFiltrar por piso 1:")
+    print(arbol.filtrar_por_piso(1))
+
+    print("\nFiltrar por tipo='Tienda' y piso=1:")
+    print(arbol.filtrar(tipo="Tienda", piso=1))
