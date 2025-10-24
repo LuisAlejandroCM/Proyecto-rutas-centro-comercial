@@ -8,7 +8,7 @@ Docente: Ing. Nury Farelo Velásquez<br>
 <ul>
   <li>Luis Alejandro Cañas Manrique - 2242023.</li>
   <li>Juan Pablo Mejía Gutiérrez - 2243198</li>
-  <li>Johan Felipe Prado Guerrero - 2240004</li>
+  <li>Johan Felipe Prado Guerrero - 2242004</li>
   <li>Juan Nicolas Buitrago León - 2242013</li>
 </ul>
   
