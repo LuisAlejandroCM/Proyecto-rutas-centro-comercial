@@ -10,6 +10,7 @@ class Nodo:
         self.altura = 1
 
 class AVL:
+    
     def __init__(self):
         self.raiz = None
 
@@ -19,7 +20,7 @@ class AVL:
         else:
             return Node.altura
 
-    
+    #te da el valor balance
     def _balance(self, Node):
         if Node is None:
             return 0
@@ -32,6 +33,8 @@ class AVL:
         else:
             return self.valorMinimoNodo(Node.izquierda)
         
+    #rotacion hacia la derecha     
+    
     def _rotacionDerecha(self, Node):
         a = Node.izquierda
         b = a.derecha
@@ -40,7 +43,9 @@ class AVL:
         Node.altura = 1 + max(self.altura(Node.izquierda), self.altura(Node.derecha))
         a.altura = 1 + max(self.altura(a.izquierda), self.altura(a.derecha))
         return a
-
+    
+    #rotacion hacia la izquierda
+    
     def _rotacionIzquierda(self, Node):
         a = Node.derecha
         b = a.izquierda
@@ -50,6 +55,7 @@ class AVL:
         a.altura = 1 + max(self.altura(a.izquierda), self.altura(a.derecha))
         return a
 
+    #insertar y que se balancee
     def _insertar(self, nodo, nombre, piso, tipo):
         if not nodo:
             return Nodo(nombre, piso, tipo)
@@ -76,6 +82,8 @@ class AVL:
             return self._rotacionIzquierda(nodo)
 
         return nodo
+    
+    #agregar elemento, te pide nombre piso y tipo y llama la funcion "_insertar"
     
     def AgregarElemento(self, nombre, piso, tipo):
         self.raiz = self._insertar(self.raiz, nombre, piso, tipo)
@@ -122,6 +130,7 @@ class AVL:
             return self._rotacionIzquierda(nodo)
 
         return nodo
+    #eliminar elemento
     def EliminarElemento(self, nombre):
         self.raiz = self._eliminar(self.raiz, nombre)
 
@@ -138,6 +147,8 @@ class AVL:
     def buscar(self, nombre):
         nodo = self._buscar(self.raiz, nombre)
         return nodo.data if nodo else None
+    
+        #recorridos
         
     def _inorder(self, nodo, lista):
         if nodo:
@@ -157,14 +168,20 @@ class AVL:
             return
         for d in X:
             print(f"Lugar: {d['nombre']} | Piso: {d['piso']} | Tipo: {d['tipo']}")
-
+ 
+    #peso del árbol avl
+    
     def _conteo(self, nodo):
         if not nodo:
             return 0
         return 1 + self._conteo(nodo.izquierda) + self._conteo(nodo.derecha)
-
+    
+  
+    
     def cantidad_elementos(self):
          return self._conteo(self.raiz)
+     
+     #filtra tipo y piso y si uno de ellos e None solo toma en cuenta el que tenga cierto valor
     def filtrar(self, tipo=None, piso=None):
        
         resultados = []
@@ -178,10 +195,14 @@ class AVL:
             _rec(nodo.derecha)
         _rec(self.raiz)
         return resultados
-
+    
+    #recibe tipo y llama a filtral, unicamente llamando a tipo
+    
     def filtrar_por_tipo(self, tipo):
         return self.filtrar(tipo=tipo)
-
+    
+    #recibe piso y llama a filtral, unicamente llamando a tipo
+    
     def filtrar_por_piso(self, piso):
         return self.filtrar(piso=piso)
 
