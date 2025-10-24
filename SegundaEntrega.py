@@ -89,7 +89,7 @@ class AVL:
         elif nombre > nodo.data["nombre"]:
             nodo.derecha = self._eliminar(nodo.derecha, nombre)
         else:
-            # nodo a eliminar encontrado
+      
             if nodo.izquierda is None:
                 temp = nodo.derecha
                 nodo = None
@@ -98,7 +98,7 @@ class AVL:
                 temp = nodo.izquierda
                 nodo = None
                 return temp
-            # dos hijos: tomar sucesor in-order (mínimo del subárbol derecho)
+    
             sucesor = self.valorMinimoNodo(nodo.derecha)
             nodo.data = sucesor.data.copy()
             nodo.derecha = self._eliminar(nodo.derecha, sucesor.data["nombre"])
@@ -109,7 +109,7 @@ class AVL:
         nodo.altura = 1 + max(self.altura(nodo.izquierda), self.altura(nodo.derecha))
         balance = self._balance(nodo)
 
-        # Rotaciones para balancear
+        
         if balance > 1 and self._balance(nodo.izquierda) >= 0:
             return self._rotacionDerecha(nodo)
         if balance > 1 and self._balance(nodo.izquierda) < 0:
@@ -203,7 +203,7 @@ if __name__ == "__main__":
     res = arbol.buscar(buscado)
     print(res if res else f"No se encontró '{buscado}'")
 
-    # Ejemplos de filtrado
+ 
     print("\nFiltrar por tipo 'Tienda':")
     print(arbol.filtrar_por_tipo("Tienda"))
 
