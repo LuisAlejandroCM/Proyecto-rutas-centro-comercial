@@ -8,9 +8,17 @@ class Nodo:
         self.siguiente = None
 
 class Lista:
-
     def __init__(self):
         self.cabeza = None
+    
+    def AgregarElemento(self, nombre, piso, tipo):
+        nuevoNodo = Nodo(nombre, piso, tipo)
+        if self.cabeza == None:
+            self.cabeza = nuevoNodo
+        else:
+            nuevoNodo.siguiente = self.cabeza
+            self.cabeza = nuevoNodo
+
 
     def verificacion_de_contenido(self):
         if self.cabeza == None:
@@ -35,14 +43,6 @@ class Lista:
                 lugar = nodoActual.data
                 print(f"Lugar: {lugar['nombre']} | Piso: {lugar['piso']} | Tipo: {lugar['tipo']}")
                 nodoActual = nodoActual.siguiente
-            
-    def AgregarElemento(self, nombre, piso, tipo):
-        nuevoNodo = Nodo(nombre, piso, tipo)
-        if self.cabeza == None:
-            self.cabeza = nuevoNodo
-        else:
-            nuevoNodo.siguiente = self.cabeza
-            self.cabeza = nuevoNodo
 
     def odenamiento(self):
         if self.cabeza == None:
@@ -68,6 +68,26 @@ class Lista:
             posicion +=1
         return f"El lugar '{valor}' NO se encontró en la lista"
 
+    def eliminar(self, valor):
+        if self.cabeza is None:
+            return f"La lista está vacía, no se puede eliminar '{valor}'"
+
+        #El nodo a elminar esta en la cabeza
+        if self.cabeza.data["nombre"] == valor:
+            self.cabeza = self.cabeza.siguiente
+            return f"Se eliminó el lugar '{valor}'"
+
+        # Recorrer para encontrar el nodo
+        nodoActual = self.cabeza
+        while nodoActual.siguiente:
+            if nodoActual.siguiente.data["nombre"] == valor:
+                nodoActual.siguiente = nodoActual.siguiente.siguiente
+                return f"Se eliminó el lugar '{valor}'"
+            nodoActual = nodoActual.siguiente
+
+        return f"El lugar '{valor}' NO existe en la lista"
+    
+#=====================================
 #ejemplo
 
 lista = Lista()
@@ -83,6 +103,13 @@ print("\nCantidad de lugares en la lista:", lista.cantidad_elementos())
 print("\nLista de lugares en el centro comercial:")
 lista.imprimirLista()
 
+lista.eliminar("Nike")
+print("\nEliminando tienda Nike:")
+lista.imprimirLista()
+lista.odenamiento()
+
 print("\nBúsqueda de lugares:")
-print(lista.busqueda("D1"))
+print(lista.busqueda("Escalera_Norte"))
 print(lista.busqueda("Adidas"))
+
+
